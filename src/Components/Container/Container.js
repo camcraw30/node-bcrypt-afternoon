@@ -13,21 +13,50 @@ export default class Container extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      this.setState({ treasures: {} });
-    }
+    // if (this.prevProps !== this.props) {
+    //   this.setState({ treasures: {} });
+    // }
   }
 
   getDragonTreasure() {
-    // axios GET to /api/treasure/dragon here
+    axios
+      .get("/api/treasure/dragon")
+      .then(treasure => {
+        this.setState({
+          treasures: {
+            ...this.state.treasures,
+            dragon: treasure.data,
+          },
+        })
+      })
+      .catch(error => console.log(error));
   }
 
   getAllTreasure() {
-    // axios GET to /api/treasure/all here
+    axios.get("/api/treasure/all")
+      .then(treasure => {
+        this.setState({
+          treasures: {
+            ...this.state.treasures,
+            all: treasure.data
+          }
+        })
+      })
+      .catch(error => alert(error.response.request.response));
   }
 
   getMyTreasure() {
-    // axios GET to /api/treasure/user here
+    axios
+      .get("/api/treasure/user")
+      .then(treasure => {
+        this.setState({
+          treasures: {
+            ...this.state.treasures,
+            user: treasure.data,
+          },
+        })
+      })
+      .catch(error => alert(error.response.request.response));
   }
 
   addMyTreasure(newMyTreasure) {
